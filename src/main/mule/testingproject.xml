@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="38d27614-ddda-4ddf-8400-1ad026f58aca" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="testingprojectFlow" doc:id="b249cf8c-d7b7-42f0-9ad5-4a2f60baf3df" >
+		<http:listener doc:name="Listener" doc:id="2cb2212a-6cfd-4a7f-a15e-edbbc952ce90" config-ref="HTTP_Listener_config" path="/Testing"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a27d1579-cd6c-4760-b25e-4d8a4eb1db5c" message="Request Received"/>
+		<set-variable value='"517408"' doc:name="Set Variable" doc:id="9598520e-638f-47c6-a86f-b8d0f6590cdb" variableName="pincode"/>
+		<ee:transform doc:name="Transform Message" doc:id="ff0dd0bf-fab6-4701-b6e2-4d9da492dc22" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"id":123,
+	"name":"jyothi prakash",
+	"email":"jyothiprakash6125@gmail.com",
+	"address":"palamaner",
+	"telephone":"9515748506",
+	"pinCode": vars.pincode
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
